@@ -1,0 +1,95 @@
+import React, { useState } from 'react';
+import { Send, Music } from 'lucide-react';
+
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+export function HarmonyGPTPage() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+
+    const newMessage: Message = { role: 'user', content: input };
+    setMessages([...messages, newMessage]);
+    setInput('');
+    setIsTyping(true);
+
+    // Simulate AI response (replace with actual API call)
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'I\'d love to help you create music! What style or artist inspires you?'
+      }]);
+      setIsTyping(false);
+    }, 1000);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="p-3 bg-blue-500/20 rounded-xl">
+            <Music size={32} className="text-blue-400" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
+              HarmonyGPT
+            </h1>
+            <p className="text-gray-400">Your AI music collaboration partner</p>
+          </div>
+        </div>
+
+        {/* Chat messages */}
+        <div className="bg-gray-800/50 rounded-xl p-4 min-h-[60vh] mb-4 overflow-y-auto">
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={`mb-4 ${
+                msg.role === 'user' ? 'ml-auto text-right' : 'mr-auto'
+              }`}
+            >
+              <div
+                className={`inline-block max-w-[80%] px-4 py-2 rounded-xl ${
+                  msg.role === 'user'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-700 text-gray-100'
+                }`}
+              >
+                {msg.content}
+              </div>
+            </div>
+          ))}
+          {isTyping && (
+            <div className="text-gray-400">
+              HarmonyGPT is composing a response...
+            </div>
+          )}
+        </div>
+
+        {/* Input area */}
+        <div className="flex gap-4">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+            placeholder="Describe your musical vision..."
+            className="flex-1 bg-gray-800/50 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            onClick={sendMessage}
+            className="px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors duration-300"
+          >
+            <Send size={20} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

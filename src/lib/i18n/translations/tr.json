@@ -1,0 +1,63 @@
+{
+  "common": {
+    "theme": {
+      "light": "Aydınlık Mod",
+      "dark": "Karanlık Mod",
+      "system": "Sistem Teması"
+    },
+    "language": {
+      "en": "English",
+      "es": "Español",
+      "fr": "Français",
+      "tr": "Türkçe"
+    },
+    "nav": {
+      "home": "Ana Sayfa",
+      "price": "Fiyatlandırma",
+      "photos": "Fotoğraflar",
+      "videos": "Videolar",
+      "websites": "Web Siteleri",
+      "about": "Hakkında",
+      "contact": "İletişim",
+      "signin": "Giriş Yap",
+      "signup": "Kayıt Ol"
+    },
+    "dock": {
+      "newChat": "Yeni Sohbet",
+      "searchChats": "Sohbetlerde ara",
+      "settings": "Ayarlar",
+      "help": "Yardım",
+      "subscription": "Abonelik",
+      "signOut": "Çıkış Yap"
+    },
+    "footer": {
+      "description": "Yapay zeka destekli araçlarla yaratıcılığınızı ortaya çıkarın.",
+      "quickLinks": "Hızlı Bağlantılar",
+      "followUs": "Bizi Takip Edin",
+      "rights": "Tüm hakları saklıdır."
+    }
+  },
+  "hero": {
+    "title": "Bugün ne oluşturmak istersiniz?",
+    "subtitle": "Yapay zeka ile yaratıcılığınızı keşfedin. Hızlı, eğlenceli ve sınırsız.",
+    "getStarted": "Başlayın"
+  },
+  "features": {
+    "harmony": {
+      "name": "HarmonyGPT",
+      "description": "Yapay zeka destekli müzik işbirliği ile şarkılar oluşturun"
+    },
+    "chroma": {
+      "name": "ChromaGPT",
+      "description": "Fikirleri muhteşem görsel başyapıtlara dönüştürün"
+    },
+    "story": {
+      "name": "StoryForge",
+      "description": "Yapay zeka hikaye anlatımı ile etkileyici videolar oluşturun"
+    },
+    "web": {
+      "name": "WebCrafter",
+      "description": "Yapay zeka yardımıyla muhteşem web siteleri tasarlayın"
+    }
+  }
+}

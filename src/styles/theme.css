@@ -1,0 +1,118 @@
+/* Base theme variables */
+:root {
+  /* Light theme */
+  --color-primary-light: #3b82f6;
+  --color-primary-hover-light: #2563eb;
+  --color-primary-light-light: #93c5fd;
+  --color-primary-dark-light: #1d4ed8;
+  
+  --color-base-light: #ffffff;
+  --color-base-secondary-light: #f3f4f6;
+  --color-base-tertiary-light: #e5e7eb;
+  
+  /* Improved contrast for light mode */
+  --color-content-light: #0f172a;
+  --color-content-secondary-light: #1e293b;
+  --color-content-tertiary-light: #475569;
+  
+  --color-border-light: #e5e7eb;
+  --color-border-secondary-light: #d1d5db;
+  
+  --color-interactive-light: #3b82f6;
+  --color-interactive-hover-light: #2563eb;
+  --color-interactive-muted-light: #60a5fa;
+
+  /* Dark theme */
+  --color-primary-dark: #60a5fa;
+  --color-primary-hover-dark: #3b82f6;
+  --color-primary-light-dark: #93c5fd;
+  --color-primary-dark-dark: #2563eb;
+  
+  --color-base-dark: #111827;
+  --color-base-secondary-dark: #1f2937;
+  --color-base-tertiary-dark: #374151;
+  
+  /* Enhanced contrast for dark mode */
+  --color-content-dark: #f8fafc;
+  --color-content-secondary-dark: #f1f5f9;
+  --color-content-tertiary-dark: #e2e8f0;
+  
+  --color-border-dark: #374151;
+  --color-border-secondary-dark: #4b5563;
+  
+  --color-interactive-dark: #60a5fa;
+  --color-interactive-hover-dark: #3b82f6;
+  --color-interactive-muted-dark: #93c5fd;
+}
+
+/* Apply theme variables based on color scheme */
+:root {
+  --color-primary: var(--color-primary-light);
+  --color-primary-hover: var(--color-primary-hover-light);
+  --color-primary-light: var(--color-primary-light-light);
+  --color-primary-dark: var(--color-primary-dark-light);
+  
+  --color-base: var(--color-base-light);
+  --color-base-secondary: var(--color-base-secondary-light);
+  --color-base-tertiary: var(--color-base-tertiary-light);
+  
+  --color-content: var(--color-content-light);
+  --color-content-secondary: var(--color-content-secondary-light);
+  --color-content-tertiary: var(--color-content-tertiary-light);
+  
+  --color-border: var(--color-border-light);
+  --color-border-secondary: var(--color-border-secondary-light);
+  
+  --color-interactive: var(--color-interactive-light);
+  --color-interactive-hover: var(--color-interactive-hover-light);
+  --color-interactive-muted: var(--color-interactive-muted-light);
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-primary: var(--color-primary-dark);
+  --color-primary-hover: var(--color-primary-hover-dark);
+  --color-primary-light: var(--color-primary-light-dark);
+  --color-primary-dark: var(--color-primary-dark-dark);
+  
+  --color-base: var(--color-base-dark);
+  --color-base-secondary: var(--color-base-secondary-dark);
+  --color-base-tertiary: var(--color-base-tertiary-dark);
+  
+  --color-content: var(--color-content-dark);
+  --color-content-secondary: var(--color-content-secondary-dark);
+  --color-content-tertiary: var(--color-content-tertiary-dark);
+  
+  --color-border: var(--color-border-dark);
+  --color-border-secondary: var(--color-border-secondary-dark);
+  
+  --color-interactive: var(--color-interactive-dark);
+  --color-interactive-hover: var(--color-interactive-hover-dark);
+  --color-interactive-muted: var(--color-interactive-muted-dark);
+}
+
+/* Smooth transitions for theme changes */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Enhanced text readability */
+.text-content {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.dark .text-content {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Glass effect text enhancement */
+.glass-text {
+  @apply backdrop-blur-[0.5px];
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}

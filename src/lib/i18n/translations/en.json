@@ -1,0 +1,64 @@
+{
+  "common": {
+    "theme": {
+      "light": "Light Mode",
+      "dark": "Dark Mode",
+      "system": "System Theme"
+    },
+    "language": {
+      "en": "English",
+      "es": "Español",
+      "fr": "Français",
+      "tr": "Türkçe"
+    },
+    "nav": {
+      "home": "Home",
+      "chat": "Chat",
+      "price": "Pricing",
+      "photos": "Photos",
+      "videos": "Videos",
+      "websites": "Websites",
+      "about": "About",
+      "contact": "Contact",
+      "signin": "Sign In",
+      "signup": "Sign Up"
+    },
+    "dock": {
+      "newChat": "New Chat",
+      "searchChats": "Search chats",
+      "settings": "Settings",
+      "help": "Help",
+      "subscription": "Subscription",
+      "signOut": "Sign Out"
+    },
+    "footer": {
+      "description": "Unleash your creativity with AI-powered tools.",
+      "quickLinks": "Quick Links",
+      "followUs": "Follow Us",
+      "rights": "All rights reserved."
+    }
+  },
+  "hero": {
+    "title": "What do you want to create today?",
+    "subtitle": "Explore your creativity with AI. It's fast, fun, and limitless.",
+    "getStarted": "Get Started"
+  },
+  "features": {
+    "harmony": {
+      "name": "HarmonyGPT",
+      "description": "Create songs with AI-powered music collaboration"
+    },
+    "chroma": {
+      "name": "ChromaGPT",
+      "description": "Transform ideas into stunning visual masterpieces"
+    },
+    "story": {
+      "name": "StoryForge",
+      "description": "Craft compelling videos with AI storytelling"
+    },
+    "web": {
+      "name": "WebCrafter",
+      "description": "Design stunning websites with AI assistance"
+    }
+  }
+}

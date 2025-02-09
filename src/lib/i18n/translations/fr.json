@@ -1,0 +1,63 @@
+{
+  "common": {
+    "theme": {
+      "light": "Mode Clair",
+      "dark": "Mode Sombre",
+      "system": "Thème Système"
+    },
+    "language": {
+      "en": "English",
+      "es": "Español",
+      "fr": "Français",
+      "tr": "Türkçe"
+    },
+    "nav": {
+      "home": "Accueil",
+      "price": "Tarifs",
+      "photos": "Photos",
+      "videos": "Vidéos",
+      "websites": "Sites Web",
+      "about": "À Propos",
+      "contact": "Contact",
+      "signin": "Connexion",
+      "signup": "S'inscrire"
+    },
+    "dock": {
+      "newChat": "Nouveau Chat",
+      "searchChats": "Rechercher",
+      "settings": "Paramètres",
+      "help": "Aide",
+      "subscription": "Abonnement",
+      "signOut": "Déconnexion"
+    },
+    "footer": {
+      "description": "Libérez votre créativité avec des outils alimentés par l'IA.",
+      "quickLinks": "Liens Rapides",
+      "followUs": "Suivez-nous",
+      "rights": "Tous droits réservés."
+    }
+  },
+  "hero": {
+    "title": "Que voulez-vous créer aujourd'hui ?",
+    "subtitle": "Explorez votre créativité avec l'IA. C'est rapide, amusant et sans limites.",
+    "getStarted": "Commencer"
+  },
+  "features": {
+    "harmony": {
+      "name": "HarmonyGPT",
+      "description": "Créez des chansons avec la collaboration musicale IA"
+    },
+    "chroma": {
+      "name": "ChromaGPT",
+      "description": "Transformez vos idées en chefs-d'œuvre visuels"
+    },
+    "story": {
+      "name": "StoryForge",
+      "description": "Créez des vidéos captivantes avec la narration IA"
+    },
+    "web": {
+      "name": "WebCrafter",
+      "description": "Concevez des sites web magnifiques avec l'assistance IA"
+    }
+  }
+}
