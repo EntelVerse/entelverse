@@ -1,0 +1,11 @@
+{
+    "builds": [
+      {
+        "src": "src/**/*",
+        "use": "@vercel/node"
+      }
+    ],
+    "scripts": {
+      "build": "npm install && npx tsc && npm run build"
+    }
+}

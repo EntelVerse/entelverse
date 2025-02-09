@@ -1,7 +1,9 @@
 let isInitialized = false;
 let initializationPromise: Promise<void> | null = null;
 
-
+/**
+ * ✅ Initialize Paddle.js
+ */
 export async function initPaddle(): Promise<void> {
   if (isInitialized) return;
   if (initializationPromise) return initializationPromise;
@@ -10,40 +12,43 @@ export async function initPaddle(): Promise<void> {
     try {
       const vendorId = import.meta.env.VITE_PADDLE_VENDOR_ID;
       if (!vendorId) {
-        console.warn('⚠️ Paddle Vendor ID is missing! Ensure VITE_PADDLE_VENDOR_ID is set in .env');
-        return reject(new Error('❌ Paddle Vendor ID is missing!'));
+        console.warn("⚠️ Paddle Vendor ID is missing! Ensure VITE_PADDLE_VENDOR_ID is set in .env");
+        return reject(new Error("❌ Paddle Vendor ID is missing!"));
       }
 
-      const script = document.createElement('script');
-      script.src = 'https://cdn.paddle.com/paddle/paddle.js';
+      if (window.Paddle) {
+        console.log("✅ Paddle already loaded.");
+        isInitialized = true;
+        return resolve();
+      }
+
+      const script = document.createElement("script");
+      script.src = "https://cdn.paddle.com/paddle/paddle.js";
       script.async = true;
       script.defer = true;
 
       script.onload = () => {
         try {
           if (!window.Paddle) {
-            throw new Error('❌ Paddle failed to load');
+            throw new Error("❌ Paddle failed to load");
           }
-
+      
           // ✅ Correct Paddle Setup function
-          window.Paddle.Setup({
-            vendor: parseInt(vendorId, 10),
-            eventCallback: (data: any) => {
-              console.log("🔔 Paddle Event:", data);
-            }
+          window.Paddle.Initialize({
+            token: import.meta.env.VITE_PADDLE_API_KEY, // If Paddle requires an API key for initialization
           });
-
-          console.log(`✅ Paddle initialized successfully with Vendor ID: ${vendorId}`);
+      
+          console.log(`✅ Paddle initialized successfully`);
           isInitialized = true;
           resolve();
         } catch (error) {
-          console.error('❌ Failed to initialize Paddle:', error);
+          console.error("❌ Failed to initialize Paddle:", error);
           reject(error);
         }
       };
 
       script.onerror = () => {
-        reject(new Error('❌ Failed to load Paddle.js'));
+        reject(new Error("❌ Failed to load Paddle.js"));
       };
 
       document.body.appendChild(script);
@@ -58,50 +63,81 @@ export async function initPaddle(): Promise<void> {
 /**
  * 🛒 Open Paddle Checkout
  */
-export async function openCheckout(priceId: string) {
+export async function openCheckout(
+  priceId: string,
+  settings: {
+    theme: string;
+    displayMode: string;
+    locale: string;
+    successUrl: string;
+    closeOnSuccess: boolean;
+  }
+) {
   try {
-    console.log("📌 Debug: Received priceId ->", priceId)
     await initPaddle();
-
     if (!window.Paddle) {
-      throw new Error('❌ Paddle is not initialized');
+      throw new Error("❌ Paddle is not initialized");
     }
     if (!priceId) {
-      throw new Error('❌ Missing priceId! Check your .env variables.');
+      throw new Error("❌ Missing priceId! Check your .env variables.");
     }
 
-    console.log(`📌 Vendor ID: ${import.meta.env.VITE_PADDLE_VENDOR_ID}`);
-    console.log(`🛒 Opening Paddle checkout for price ID: ${priceId}`);
+    console.log(`📌 Debug: Received priceId -> ${priceId}`);
 
-    await window.Paddle.Checkout.open({
-      items: [{ priceId, quantity: 1 }],
-      settings: {
-        displayMode: 'overlay',
-        locale: navigator.language,
-        successUrl: `${window.location.origin}/success`,
-        closeOnSuccess: true
-      }
-    });
+    // 🛑 Fix: Remove non-numeric characters & prevent leading zeros
+    const productId = priceId.replace(/\D/g, "").replace(/^0+/, "");
+
+    console.log(`✅ Extracted Product ID: ${productId}`);
+
+    const checkoutUrl = `https://buy.paddle.com/paddlejs?ccsURL=https://checkout-service.paddle.com/create/checkout/product/${productId}/?product=${productId}&display_mode=${settings.displayMode}&vendor=${import.meta.env.VITE_PADDLE_VENDOR_ID}&checkout_initiated=${Date.now()}&popup=true&paddle_js=true&is_popup=true`;
+
+    console.log("🔗 Paddle Checkout URL:", checkoutUrl);
+
+    // Open Paddle checkout as an iframe
+    const iframe = document.createElement("iframe");
+    iframe.id = "paddle-checkout";
+    iframe.className = "paddle-frame paddle-frame-overlay";
+    iframe.name = "paddle_frame";
+    iframe.frameBorder = "0";
+    iframe.allow = "payment https://buy.paddle.com https://subscription-management.paddle.com;";
+    iframe.style.cssText = `
+      z-index: 2147483647;
+      display: block;
+      background-color: transparent;
+      border: 0px transparent;
+      overflow: hidden auto;
+      visibility: visible;
+      margin: 0px;
+      padding: 0px;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+    `;
+    iframe.src = checkoutUrl;
+
+    document.body.appendChild(iframe);
   } catch (error) {
     console.error("❌ Checkout error:", error);
   }
 }
 
 /**
- * 🔄 Upgrade or change a subscription plan
+ * 🔄 Upgrade or Change a Subscription Plan
  */
 export async function updateSubscription(subscriptionId: string, newPriceId: string) {
   try {
     const response = await fetch(`https://api.paddle.com/subscriptions/${subscriptionId}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Authorization': `Bearer ${import.meta.env.VITE_PADDLE_API_KEY}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${import.meta.env.VITE_PADDLE_API_KEY}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         items: [{ priceId: newPriceId, quantity: 1 }],
-        prorationBillingMode: "prorated_immediately"
-      })
+        prorationBillingMode: "prorated_immediately",
+      }),
     });
 
     const data = await response.json();
@@ -113,20 +149,20 @@ export async function updateSubscription(subscriptionId: string, newPriceId: str
 }
 
 /**
- * ⏳ Extend the billing period of a subscription
+ * ⏳ Extend the Billing Period of a Subscription
  */
 export async function extendBillingPeriod(subscriptionId: string, newBillingDate: string) {
   try {
     const response = await fetch(`https://api.paddle.com/subscriptions/${subscriptionId}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Authorization': `Bearer ${import.meta.env.VITE_PADDLE_API_KEY}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${import.meta.env.VITE_PADDLE_API_KEY}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         nextBilledAt: newBillingDate,
-        prorationBillingMode: "prorated_next_billing_period"
-      })
+        prorationBillingMode: "prorated_next_billing_period",
+      }),
     });
 
     const data = await response.json();

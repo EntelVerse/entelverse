@@ -1,0 +1,7 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { ArtistCard } from '../../components/music/ArtistCard';
+import { GeneralAssistant } from '../../components/music/GeneralAssistant';
+import { artists } from '../../data/artists';
+export function MusicPage() {
+    return (_jsx("div", { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50", children: _jsxs("div", { className: "max-w-7xl mx-auto px-4 py-12", children: [_jsxs("div", { className: "text-center mb-12", children: [_jsx("h1", { className: "text-4xl font-bold text-gray-900 mb-4", children: "Collaborate with Legends" }), _jsx("p", { className: "text-xl text-gray-600", children: "Choose a music icon and bring your song to life" })] }), _jsx("div", { className: "grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-12", children: artists.map((artist) => (_jsx(ArtistCard, { ...artist }, artist.id))) }), _jsx(GeneralAssistant, {}), _jsxs("div", { className: "mt-12 text-center", children: [_jsxs("p", { className: "text-gray-600 mb-4", children: ["Once your lyrics are ready, visit", ' ', _jsx("a", { href: "https://suno.ai", target: "_blank", rel: "noopener noreferrer", className: "text-blue-600 hover:text-blue-700", children: "Suno.ai" }), ' ', "to turn them into music!"] }), _jsx("a", { href: "/", className: "text-blue-600 hover:text-blue-700 font-medium", children: "\u2190 Back to Homepage" })] })] }) }));
+}

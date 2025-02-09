@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Check, ChevronDown, Zap, CreditCard, Loader2, AlertCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Check, Zap, CreditCard, Loader2, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { initPaddle, openCheckout } from '../../lib/paddle';
 import type { PricingPlan } from '../../types/subscription';
@@ -162,6 +162,7 @@ export function SubscriptionPage() {
           closeOnSuccess: true
         }
       });
+    
     } catch (error) {
       console.error('Subscription error:', error);
       setError('Failed to start checkout process. Please try again later.');

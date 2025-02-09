@@ -1,8 +1,4 @@
 import { supabase } from '../supabase';
-import type { Database } from '../../types/supabase';
-
-type Badge = Database['public']['Tables']['badges']['Row'];
-type UserBadge = Database['public']['Tables']['user_badges']['Row'];
 
 export async function getBadges() {
   const { data, error } = await supabase
@@ -56,7 +52,7 @@ export async function checkAndAwardBadges(userId: string) {
   const newBadges = badges.filter(badge => !existingBadgeIds.has(badge.id));
 
   if (newBadges.length > 0) {
-    const <boltAction type="file" filePath="src/lib/api/badges.ts">    badgeInserts = newBadges.map(badge => ({
+    const badgeInserts = newBadges.map(badge => ({
       user_id: userId,
       badge_id: badge.id
     }));

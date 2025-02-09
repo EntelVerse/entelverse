@@ -1,0 +1,8 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { X } from 'lucide-react';
+import { ChatInterface } from './ChatInterface';
+export function ChatModal({ isOpen, onClose, hub }) {
+    if (!isOpen)
+        return null;
+    return (_jsxs("div", { className: "fixed inset-0 z-50 overflow-y-auto", children: [_jsx("div", { className: "fixed inset-0 bg-base/70 dark:bg-base/70 backdrop-blur-sm", onClick: onClose }), _jsx("div", { className: "relative min-h-screen flex items-center justify-center p-4", children: _jsxs("div", { className: "relative w-full max-w-4xl bg-gradient-to-br from-base-secondary/90 to-base/90 dark:from-base-secondary/90 dark:to-base/90 rounded-2xl shadow-2xl", children: [_jsx("button", { onClick: onClose, className: "absolute top-4 right-4 p-2 text-content-tertiary hover:text-content transition-colors", "aria-label": "Close modal", children: _jsx(X, { size: 24 }) }), _jsx(ChatInterface, { hub: hub })] }) })] }));
+}

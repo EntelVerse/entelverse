@@ -19,7 +19,7 @@
       "@/pages/*": ["src/pages/*"],
       "@/api/*": ["src/api/*"]
     },
-    "jsx": "preserve"
+    "jsx": "react-jsx"
   },
   "include": ["src", "next-env.d.ts"],
   "exclude": ["node_modules"]

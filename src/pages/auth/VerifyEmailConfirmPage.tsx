@@ -1,5 +1,5 @@
 // /src/pages/auth/VerifyEmailConfirmPage.tsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Loader2, CheckCircle, XCircle } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
