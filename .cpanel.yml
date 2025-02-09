@@ -2,8 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/astermac/public_html/
-    - rm -rf $DEPLOYPATH/*
-    - cp -R /home/astermac/repositories/entelverse/.next $DEPLOYPATH
-    - cp /home/astermac/repositories/entelverse/package.json $DEPLOYPATH
+    - /bin/rm -rf $DEPLOYPATH/*
+    - /bin/cp -R .next $DEPLOYPATH
+    - /bin/cp package.json $DEPLOYPATH
     - cd $DEPLOYPATH && npm install --omit=dev
     - cd $DEPLOYPATH && npm run build
