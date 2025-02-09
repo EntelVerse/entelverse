@@ -2,7 +2,10 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { initPaddle, openCheckout } from "@/lib/paddle";
-import { Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert/alert";
 const plans = [
     {
         id: "basic",
@@ -26,23 +29,33 @@ const plans = [
         },
     },
 ];
+const SubscriptionToggle = ({ isYearly, onToggle }) => (_jsxs("div", { className: "flex space-x-4 mb-6", children: [_jsx(Button, { variant: !isYearly ? "primary" : "secondary", onClick: () => onToggle(false), children: "Monthly" }), _jsx(Button, { variant: isYearly ? "primary" : "secondary", onClick: () => onToggle(true), children: "Yearly (Save 20%)" })] }));
 export default function SubscriptionPage() {
     const [isYearly, setIsYearly] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [activeSubscription, setActiveSubscription] = useState(null);
     const [error, setError] = useState(null);
     const [paddleInitialized, setPaddleInitialized] = useState(false);
     const router = useRouter();
     useEffect(() => {
+        let mounted = true;
         const initializePaddle = async () => {
             try {
                 await initPaddle();
-                setPaddleInitialized(true);
+                if (mounted) {
+                    setPaddleInitialized(true);
+                }
             }
             catch (err) {
-                setError("Failed to initialize payment system.");
+                if (mounted) {
+                    setError("Failed to initialize payment system.");
+                }
             }
         };
         initializePaddle();
+        return () => {
+            mounted = false;
+        };
     }, []);
     const handleSubscribe = async (plan) => {
         if (plan.id === "basic") {
@@ -51,6 +64,10 @@ export default function SubscriptionPage() {
         }
         if (!paddleInitialized) {
             setError("Payment system is not ready.");
+            return;
+        }
+        if (activeSubscription) {
+            setError("You already have an active subscription.");
             return;
         }
         setIsLoading(true);
@@ -63,11 +80,11 @@ export default function SubscriptionPage() {
             await openCheckout(priceId);
         }
         catch (error) {
-            setError("Failed to start checkout process.");
+            setError("Failed to start checkout process. Please try again later.");
         }
         finally {
             setIsLoading(false);
         }
     };
-    return (_jsxs("div", { className: "min-h-screen flex flex-col items-center justify-center p-6", children: [_jsx("h1", { className: "text-4xl font-bold mb-4", children: "Choose Your Subscription" }), error && (_jsxs("div", { className: "bg-red-100 text-red-700 p-4 rounded-md flex items-center mb-4", children: [_jsx(AlertCircle, { className: "mr-2" }), " ", error] })), _jsxs("div", { className: "flex space-x-4 mb-6", children: [_jsx("button", { onClick: () => setIsYearly(false), className: `px-4 py-2 rounded ${!isYearly ? "bg-blue-500 text-white" : "bg-gray-200"}`, children: "Monthly" }), _jsx("button", { onClick: () => setIsYearly(true), className: `px-4 py-2 rounded ${isYearly ? "bg-blue-500 text-white" : "bg-gray-200"}`, children: "Yearly (Save 20%)" })] }), _jsx("div", { className: "grid md:grid-cols-2 gap-8", children: plans.map((plan) => (_jsxs("div", { className: "border p-6 rounded-lg shadow-lg", children: [_jsx("h2", { className: "text-2xl font-bold", children: plan.name }), _jsx("p", { className: "text-gray-600", children: plan.description }), _jsxs("p", { className: "text-xl font-semibold my-2", children: ["$", plan.price[isYearly ? "yearly" : "monthly"], " / ", isYearly ? "year" : "month"] }), _jsx("ul", { className: "mb-4", children: plan.features.map((feature) => (_jsxs("li", { children: ["\u2705 ", feature] }, feature))) }), _jsx("button", { onClick: () => handleSubscribe(plan), disabled: isLoading, className: "bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 w-full", children: isLoading ? _jsx(Loader2, { className: "animate-spin mx-auto" }) : plan.buttonText })] }, plan.id))) })] }));
+    return (_jsxs("div", { className: "container mx-auto max-w-6xl px-4 py-8", children: [_jsx("h1", { className: "text-4xl font-bold text-center mb-8", children: "Choose Your Subscription" }), error && (_jsxs(Alert, { variant: "destructive", className: "mb-6", children: [_jsx(AlertCircle, { className: "h-4 w-4" }), _jsx(AlertDescription, { children: error })] })), _jsx(SubscriptionToggle, { isYearly: isYearly, onToggle: setIsYearly }), _jsx("div", { className: "grid md:grid-cols-2 gap-8", children: plans.map((plan) => (_jsxs(Card, { className: "relative", children: [_jsxs(CardHeader, { children: [_jsx("h2", { className: "text-2xl font-bold", children: plan.name }), _jsx("p", { className: "text-gray-600", children: plan.description })] }), _jsxs(CardContent, { children: [_jsxs("p", { className: "text-3xl font-semibold mb-4", children: ["$", plan.price[isYearly ? "yearly" : "monthly"], _jsxs("span", { className: "text-lg text-gray-600", children: ["/", isYearly ? "year" : "month"] })] }), _jsx("ul", { className: "space-y-2", children: plan.features.map((feature) => (_jsxs("li", { className: "flex items-center", children: [_jsx(Check, { className: "h-5 w-5 text-green-500 mr-2" }), _jsx("span", { children: feature })] }, feature))) })] }), _jsx(CardFooter, { children: _jsx(Button, { className: "w-full", variant: "default", size: "lg", onClick: () => handleSubscribe(plan), disabled: isLoading || Boolean(activeSubscription), children: isLoading ? _jsx(Loader2, { className: "animate-spin mr-2" }) : plan.buttonText }) })] }, plan.id))) })] }));
 }

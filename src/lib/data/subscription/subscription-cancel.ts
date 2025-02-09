@@ -1,4 +1,4 @@
-import { cancelSubscriptionInDatabase } from "@/lib/database";
+import { cancelSubscriptionInDatabase } from "@/src/pages/subscription";
 import type { PaddleSubscriptionEvent } from "@/lib/types";
 
 /**

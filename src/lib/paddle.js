@@ -30,13 +30,10 @@ export async function initPaddle() {
                         throw new Error("❌ Paddle failed to load");
                     }
                     // ✅ Correct Paddle Setup function
-                    window.Paddle.Setup({
-                        vendor: parseInt(vendorId, 10),
-                        eventCallback: (data) => {
-                            console.log("🔔 Paddle Event:", data);
-                        },
+                    window.Paddle.Initialize({
+                        token: import.meta.env.VITE_PADDLE_API_KEY, // If Paddle requires an API key for initialization
                     });
-                    console.log(`✅ Paddle initialized successfully with Vendor ID: ${vendorId}`);
+                    console.log(`✅ Paddle initialized successfully`);
                     isInitialized = true;
                     resolve();
                 }
@@ -59,7 +56,7 @@ export async function initPaddle() {
 /**
  * 🛒 Open Paddle Checkout
  */
-export async function openCheckout(priceId, p0) {
+export async function openCheckout(priceId, settings) {
     try {
         await initPaddle();
         if (!window.Paddle) {
@@ -70,12 +67,9 @@ export async function openCheckout(priceId, p0) {
         }
         console.log(`📌 Debug: Received priceId -> ${priceId}`);
         // 🛑 Fix: Remove non-numeric characters & prevent leading zeros
-        const productId = priceId.replace(/\D/g, "").replace(/^0+/, ""); // Remove non-digits & leading zeros
+        const productId = priceId.replace(/\D/g, "").replace(/^0+/, "");
         console.log(`✅ Extracted Product ID: ${productId}`);
-        // Correct Parent URL Encoding
-        const parentUrl = encodeURIComponent(window.location.href);
-        const referringDomain = encodeURIComponent(window.location.hostname);
-        const checkoutUrl = `https://buy.paddle.com/paddlejs?ccsURL=https://checkout-service.paddle.com/create/checkout/product/${productId}/?product=${productId}&parentURL=${encodeURIComponent(window.location.href)}&referring_domain=${encodeURIComponent(window.location.hostname)}&display_mode=overlay&vendor=${import.meta.env.VITE_PADDLE_VENDOR_ID}&checkout_initiated=${Date.now()}&popup=true&paddle_js=true&is_popup=true`;
+        const checkoutUrl = `https://buy.paddle.com/paddlejs?ccsURL=https://checkout-service.paddle.com/create/checkout/product/${productId}/?product=${productId}&display_mode=${settings.displayMode}&vendor=${import.meta.env.VITE_PADDLE_VENDOR_ID}&checkout_initiated=${Date.now()}&popup=true&paddle_js=true&is_popup=true`;
         console.log("🔗 Paddle Checkout URL:", checkoutUrl);
         // Open Paddle checkout as an iframe
         const iframe = document.createElement("iframe");
